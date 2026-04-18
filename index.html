@@ -2,17 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- MOBILE VIEW -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>For You ❤️</title>
 
-<!-- FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 box-sizing:border-box;
 -webkit-tap-highlight-color:transparent;
@@ -21,9 +16,8 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-text-align:center;
 color:white;
-overflow-x:hidden;
+overflow:hidden;
 }
 
 /* BACKGROUND */
@@ -43,17 +37,50 @@ z-index:-2;
 100%{background-position:0%}
 }
 
+/* APP CONTAINER */
+.app{
+display:flex;
+flex-direction:column;
+height:100vh;
+}
+
+/* TOP BAR */
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 15px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
+}
+
+.icon-btn{
+width:45px;
+height:45px;
+border-radius:50%;
+border:none;
+background:rgba(255,255,255,0.15);
+color:white;
+font-size:18px;
+}
+
+/* CONTENT */
+.content{
+flex:1;
+overflow-y:auto;
+padding:15px;
+}
+
 /* CARD */
 .card{
 background:rgba(255,0,0,0.25);
-backdrop-filter:blur(20px);
+backdrop-filter:blur(15px);
 border-radius:20px;
 padding:20px;
-margin:20px 10px;
-width:95%;
 max-width:420px;
+margin:auto;
 box-shadow:0 0 20px rgba(255,0,0,0.6);
-animation:fade .6s;
+animation:fade .5s;
 }
 @keyframes fade{
 from{opacity:0;transform:scale(.9)}
@@ -67,30 +94,20 @@ padding:14px;
 border-radius:12px;
 border:none;
 font-size:16px;
-outline:none;
+margin-top:10px;
 }
 
 /* BUTTON */
-button{
+button.main{
 width:100%;
 padding:14px;
-margin-top:10px;
+margin-top:12px;
 border:none;
 border-radius:25px;
 background:#ff1e3c;
 color:white;
 font-size:16px;
 font-weight:bold;
-}
-
-/* BACK BUTTON */
-.back-btn{
-width:auto;
-padding:8px 14px;
-font-size:14px;
-position:absolute;
-left:10px;
-top:10px;
 }
 
 /* SCREENS */
@@ -103,31 +120,28 @@ display:flex;
 flex-wrap:wrap;
 justify-content:center;
 gap:15px;
+margin-top:15px;
 }
 .gift{
-width:80px;
+width:85px;
 }
 .gift:active{
 transform:scale(1.2);
 }
 
-/* FLOAT */
-.float{
-position:fixed;
-bottom:-20px;
-animation:float 6s linear infinite;
-}
-@keyframes float{
-to{transform:translateY(-900px);opacity:0;}
+/* IMAGE */
+#img{
+width:100%;
+max-width:260px;
+border-radius:15px;
+margin-top:10px;
 }
 
 /* QUOTE */
 #quote{
-position:fixed;
-top:10%;
-width:100%;
+text-align:center;
 font-size:14px;
-padding:0 10px;
+margin-bottom:10px;
 }
 
 /* GAME */
@@ -137,29 +151,27 @@ height:250px;
 border-radius:15px;
 overflow:hidden;
 background:rgba(0,0,0,0.2);
+margin-top:10px;
 }
 .loveItem{
 position:absolute;
 font-size:28px;
-cursor:pointer;
 }
 
-/* MUSIC */
-#musicBtn{
-position:fixed;
-right:10px;
-top:10px;
-width:45px;
-height:45px;
-border-radius:50%;
+/* BOTTOM NAV */
+.bottom-nav{
+display:flex;
+justify-content:space-around;
+padding:10px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
 }
 
-/* IMAGE */
-#img{
-width:100%;
-max-width:250px;
-border-radius:15px;
-margin-top:10px;
+.nav-btn{
+border:none;
+background:none;
+color:white;
+font-size:18px;
 }
 
 </style>
@@ -167,41 +179,44 @@ margin-top:10px;
 
 <body>
 
+<div class="app">
+
+<!-- TOP BAR -->
+<div class="topbar">
+<button class="icon-btn" onclick="back()">←</button>
+<div>❤️ For You</div>
+<button class="icon-btn" id="musicBtn" onclick="toggleMusic()">▶</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
 <div id="quote"></div>
-
-<button id="musicBtn" onclick="toggleMusic()">▶</button>
-
-<audio id="music" loop>
-<source src="your-love-song.mp3">
-</audio>
 
 <!-- PASS -->
 <div class="screen active" id="pass">
 <div class="card">
 <h2>Enter Passcode 🔒</h2>
 <input id="code" placeholder="Enter code">
-<button onclick="check()">Unlock</button>
+<button class="main" onclick="check()">Unlock</button>
 <p id="err"></p>
 </div>
 </div>
 
 <!-- READY -->
 <div class="screen" id="ready">
-<button class="back-btn" onclick="back()">⬅</button>
 <div class="card">
 <h2>Ready? ❤️</h2>
-<button onclick="start()">YES 😍</button>
+<button class="main" onclick="start()">YES 😍</button>
 </div>
 </div>
 
 <!-- GIFTS -->
 <div class="screen" id="gift">
-<button class="back-btn" onclick="back()">⬅</button>
 <div class="card">
 <h2>Pick a gift 🎁</h2>
 
 <div class="gift-container">
-
 <img class="gift" src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png"
 onclick="openGift('img1.jpg','You are my forever ❤️','You are my today and tomorrow ❤️')">
 
@@ -210,20 +225,18 @@ onclick="openGift('img3.jpg','Magic 💕','Every moment with you is magic 💖')
 
 <img class="gift" src="https://cdn-icons-png.flaticon.com/512/3468/3468377.png"
 onclick="openGift('img4.jpg','Only you 😘','You are my forever ❤️')">
-
 </div>
 
-<button onclick="next('game')">🎮 Play Love Game</button>
+<button class="main" onclick="next('game')">🎮 Play Love Game</button>
 
 </div>
 </div>
 
 <!-- FINAL -->
 <div class="screen" id="final">
-<button class="back-btn" onclick="back()">⬅</button>
 <div class="card">
 <h2>I love you ❤️</h2>
-<button onclick="next('letter')">💌 Letter</button>
+<button class="main" onclick="next('letter')">💌 Letter</button>
 <img id="img">
 <p id="q"></p>
 </div>
@@ -231,7 +244,6 @@ onclick="openGift('img4.jpg','Only you 😘','You are my forever ❤️')">
 
 <!-- LETTER -->
 <div class="screen" id="letter">
-<button class="back-btn" onclick="back()">⬅</button>
 <div class="card">
 <h2>My Love 💖</h2>
 <p id="letterText"></p>
@@ -240,16 +252,30 @@ onclick="openGift('img4.jpg','Only you 😘','You are my forever ❤️')">
 
 <!-- GAME -->
 <div class="screen" id="game">
-<button class="back-btn" onclick="back()">⬅</button>
 <div class="card">
 <h2>Catch My Love ❤️</h2>
 <p>Score: <span id="score">0</span></p>
 
 <div id="gameArea"></div>
 
-<button onclick="startGame()">Start Game</button>
+<button class="main" onclick="startGame()">Start Game</button>
 </div>
 </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+<button class="nav-btn" onclick="next('gift')">🎁</button>
+<button class="nav-btn" onclick="next('game')">🎮</button>
+<button class="nav-btn" onclick="next('letter')">💌</button>
+</div>
+
+</div>
+
+<audio id="music" loop>
+<source src="your-love-song.mp3">
+</audio>
 
 <script>
 
@@ -268,11 +294,11 @@ document.getElementById("quote").innerText=quotes[qi];
 qi=(qi+1)%quotes.length;
 },3000);
 
-/* NAVIGATION */
+/* NAV */
 function next(id){
 let c=document.querySelector('.active');
-stack.push(c.id);
-c.classList.remove('active');
+if(c) stack.push(c.id);
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 function back(){
@@ -283,7 +309,7 @@ document.getElementById(p).classList.add('active');
 }
 }
 
-/* PASSCODE */
+/* PASS */
 function check(){
 if(document.getElementById("code").value=="122006")
 next('ready');
@@ -305,11 +331,12 @@ if(m.paused){m.play();b.innerText="⏸";}
 else{m.pause();b.innerText="▶";}
 }
 
-/* FLOATING EFFECT */
+/* FLOAT */
 function floating(){
 setInterval(()=>{
 let e=document.createElement("div");
-e.className="float";
+e.style.position="fixed";
+e.style.bottom="-20px";
 e.innerHTML=Math.random()>0.5?"❤️":"✨";
 e.style.left=Math.random()*100+"vw";
 document.body.appendChild(e);
@@ -327,11 +354,11 @@ next('final');
 
 /* GAME */
 let score=0;
-let gameRunning=false;
+let running=false;
 
 function startGame(){
-if(gameRunning) return;
-gameRunning=true;
+if(running) return;
+running=true;
 
 score=0;
 document.getElementById("score").innerText=score;
