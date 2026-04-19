@@ -73,22 +73,24 @@ background:#ff1e3c;color:white;font-weight:bold;
 .gift-container{display:flex;gap:15px;justify-content:center;}
 .gift{width:85px;}
 
-/* MAZE */
+/* ===== MAZE ===== */
 #maze{
 display:grid;
 grid-template-columns:repeat(10,1fr);
 gap:3px;
 margin-top:10px;
 }
+
 .cell{
 width:100%;
 padding-top:100%;
 position:relative;
 }
+
 .wall{background:#222;}
 .path{background:rgba(255,255,255,0.1);}
 
-/* PLAYER + GOAL IMAGES (FIXED) */
+/* PLAYER + GOAL */
 .player::after,.goal::after{
 content:"";
 position:absolute;
@@ -110,6 +112,35 @@ border:2px solid pink;
 .goal::after{
 background-image:url("./amalu.jpg");
 border:2px solid gold;
+}
+
+/* ===== MOBILE CONTROLS (NEW IMPROVEMENT) ===== */
+.controls{
+display:grid;
+grid-template-columns:repeat(3,60px);
+justify-content:center;
+gap:10px;
+margin-top:15px;
+}
+
+.controls button{
+width:60px;
+height:60px;
+border-radius:15px;
+font-size:20px;
+background:rgba(255,255,255,0.2);
+border:none;
+color:white;
+}
+
+.controls button:active{
+transform:scale(0.9);
+}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:600px){
+.card{padding:15px;}
+#maze{gap:2px;}
 }
 
 /* PROPOSAL CARD */
@@ -136,7 +167,6 @@ position:absolute;bottom:0;
 display:flex;align-items:center;justify-content:center;
 }
 
-/* RING IMPROVED */
 .ring{
 font-size:45px;
 opacity:0;
@@ -157,7 +187,6 @@ from{filter:drop-shadow(0 0 5px gold);}
 to{filter:drop-shadow(0 0 25px gold);}
 }
 
-/* TEXT ANIMATION */
 #proposalText{
 opacity:0;
 transform:translateY(20px);
@@ -229,7 +258,20 @@ onclick="openGift('img4.jpg','Only you 😘','You are my forever ❤️')">
 <div class="screen" id="game">
 <div class="card">
 <h2>Love Maze 💖</h2>
+
 <div id="maze"></div>
+
+<!-- MOBILE CONTROLS -->
+<div class="controls">
+<div></div>
+<button onclick="move(0,-1)">⬆</button>
+<div></div>
+
+<button onclick="move(-1,0)">⬅</button>
+<button onclick="move(0,1)">⬇</button>
+<button onclick="move(1,0)">➡</button>
+</div>
+
 <button class="main" onclick="startMaze()">Start Game</button>
 </div>
 </div>
@@ -306,7 +348,6 @@ document.getElementById("code").value=="122006"?next('ready'):alert("Wrong!");
 
 function start(){next('gift');}
 
-/* MUSIC */
 function toggleMusic(){
 let m=document.getElementById("music");
 let b=document.getElementById("musicBtn");
@@ -314,7 +355,6 @@ if(m.paused){m.play();b.innerText="⏸";}
 else{m.pause();b.innerText="▶";}
 }
 
-/* GIFTS */
 function openGift(img,q,l){
 document.getElementById("img").src=img;
 document.getElementById("q").innerText=q;
@@ -372,13 +412,10 @@ player={x:1,y:1};
 drawMaze();
 }
 
-/* PROPOSAL */
 function openRingBox(){
 let box=document.getElementById("ringBox");
 if(box.classList.contains("open")) return;
-
 box.classList.add("open");
-
 setTimeout(()=>{
 document.getElementById("proposalText").classList.add("showText");
 document.getElementById("yesBtn").style.display="block";
